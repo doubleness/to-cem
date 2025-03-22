@@ -1,3 +1,4 @@
+import { Promotion } from "@/data/promotions";
 import React, { useEffect } from "react";
 import { View, StyleSheet, Dimensions, Image } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -13,22 +14,20 @@ import Animated, {
 } from "react-native-reanimated";
 
 const { width: wWidth, height } = Dimensions.get("window");
-const SNAP_POINTS = [-wWidth, 0, wWidth];
-const aspectRatio = 722 / 368;
-const CARD_WIDTH = wWidth - 128;
-const CARD_HEIGHT = CARD_WIDTH * aspectRatio;
-const IMAGE_WIDTH = CARD_WIDTH * 0.9;
+const CARD_WIDTH = wWidth - 50;
+const CARD_HEIGHT = CARD_WIDTH;
+const IMAGE_WIDTH = 1014;
+const IMAGE_HEIGHT = 1420;
+const IMAGE_SCALE=1.4;
 const DURATION = 250;
 
 interface CardProps {
-  card: {
-    source: ReturnType<typeof require>;
-  };
+  card:Promotion;
   shuffleBack: Animated.SharedValue<boolean>;
   index: number;
 }
 
-export const Card = ({ card: { source }, shuffleBack, index }: CardProps) => {
+export const Card = ({ card, shuffleBack, index }: CardProps) => {
   const offset = useSharedValue({ x: 0, y: 0 });
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(-height);
@@ -87,7 +86,6 @@ export const Card = ({ card: { source }, shuffleBack, index }: CardProps) => {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
       { perspective: 1500 },
-      { rotateX: "30deg" },
       { translateX: translateX.value },
       { translateY: translateY.value },
       { rotateY: `${rotateZ.value / 10}deg` },
@@ -96,16 +94,23 @@ export const Card = ({ card: { source }, shuffleBack, index }: CardProps) => {
     ],
   }));
 
+  const imageTransformStyle = {
+    transform: [
+      { translateX: -card.x * IMAGE_SCALE + (CARD_WIDTH / 2) },
+      { translateY: -card.y * IMAGE_SCALE + (CARD_HEIGHT / 2) }
+    ]
+  };
+
   return (
     <View style={styles.container} pointerEvents="box-none">
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.card, animatedStyle]}>
           <Image
             source={require('../assets/images/letak.jpg')}
-            style={{
-              width: IMAGE_WIDTH,
-              height: IMAGE_WIDTH * aspectRatio,
-            }}
+            style={[{
+              width: IMAGE_WIDTH*IMAGE_SCALE,
+              height: IMAGE_HEIGHT*IMAGE_SCALE,
+            }, imageTransformStyle]}
             resizeMode="contain"
           />
         </Animated.View>
@@ -121,12 +126,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
+    overflow: "hidden",
     backgroundColor: "white",
     borderRadius: 10,
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    justifyContent: "center",
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
