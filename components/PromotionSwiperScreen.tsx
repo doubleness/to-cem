@@ -168,9 +168,16 @@ const PromotionSwiperScreen = () => {
   const [promotions, setPromotions] = useState(promotionsData);
   const swipe = useSharedValue(0);
   const tiltSign = useSharedValue(0);
+  const isAnimating = useSharedValue(false);
   
   const removeTopCard = () => {
-    setPromotions((prevPromotions) => prevPromotions.slice(1));
+    // Reset the swipe value for the new top card
+    requestAnimationFrame(() => {
+      swipe.value = 0;
+      tiltSign.value = 0;
+      isAnimating.value = false;
+      setPromotions((prevPromotions) => prevPromotions.slice(1));
+    });
   };
 
   const onSwipeLeft = () => {
@@ -186,30 +193,44 @@ const PromotionSwiperScreen = () => {
   // Create the pan gesture using the new API
   const panGesture = Gesture.Pan()
     .onBegin(() => {
-      // Store the start position (handled by the new API)
+      // Only allow gesture if not currently animating a dismissal
+      if (isAnimating.value) return false;
     })
     .onUpdate((event) => {
-      swipe.value = event.translationX;
-      tiltSign.value = Math.sign(event.translationX);
+      if (!isAnimating.value) {
+        swipe.value = event.translationX;
+        tiltSign.value = Math.sign(event.translationX);
+      }
     })
     .onEnd((event) => {
+      if (isAnimating.value) return;
+      
       const direction = Math.sign(event.velocityX);
       const shouldDismiss = 
         Math.abs(event.velocityX) > 500 || 
         Math.abs(swipe.value) > SWIPE_THRESHOLD;
       
       if (shouldDismiss) {
+        // Set animating flag to prevent new gestures
+        isAnimating.value = true;
+        
+        // First trigger the state update (but don't update state yet)
+        runOnJS(direction > 0 ? onSwipeRight : onSwipeLeft)();
+        
+        // Then animate the current card out of view
         swipe.value = withSpring(direction * width * 1.5, {
           velocity: event.velocityX,
           stiffness: 50,
           damping: 10,
           restDisplacementThreshold: 0.01,
           restSpeedThreshold: 0.01,
-        }, () => {
-          runOnJS(direction > 0 ? onSwipeRight : onSwipeLeft)();
         });
       } else {
-        swipe.value = withSpring(0);
+        // Just spring back to center
+        swipe.value = withSpring(0, {
+          stiffness: 50,
+          damping: 10,
+        });
       }
     });
 
@@ -219,7 +240,7 @@ const PromotionSwiperScreen = () => {
       
       return (
         <PromotionCard
-          key={`${promotion.product}-${index}`}
+          key={`${promotion.product}-${promotion.shop}-${index}`}
           promotion={promotion}
           isFirst={index === 0}
           swipe={swipe}
