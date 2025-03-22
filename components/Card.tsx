@@ -14,11 +14,11 @@ import Animated, {
 } from "react-native-reanimated";
 
 const { width: wWidth, height } = Dimensions.get("window");
-const CARD_WIDTH = wWidth - 50;
+const CARD_WIDTH = wWidth - 80;
 const CARD_HEIGHT = CARD_WIDTH;
 const IMAGE_WIDTH = 1014;
 const IMAGE_HEIGHT = 1420;
-const IMAGE_SCALE=1.4;
+const IMAGE_SCALE=1.27;
 const DURATION = 250;
 
 interface CardProps {
@@ -34,7 +34,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
   const scale = useSharedValue(1);
   const rotateZ = useSharedValue(0);
   const delay = index * DURATION;
-  const theta = -10 + Math.random() * 20;
+  const theta = -5 + Math.random() * 5;
 
   useEffect(() => {
     translateY.value = withDelay(
