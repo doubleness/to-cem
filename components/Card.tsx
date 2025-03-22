@@ -20,6 +20,7 @@ const IMAGE_WIDTH = 1014;
 const IMAGE_HEIGHT = 1420;
 const IMAGE_SCALE=1.23;
 const DURATION = 250;
+const SWIPE_THRESHOLD = 100;
 
 interface CardProps {
   card:Promotion;
@@ -35,6 +36,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
   const rotateZ = useSharedValue(0);
   const delay = index * DURATION;
   const theta = -5 + Math.random() * 5;
+  const swipedStatus = useSharedValue(0);
 
   useEffect(() => {
     translateY.value = withDelay(
@@ -62,6 +64,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
 
   const panGesture = Gesture.Pan()
     .onBegin(() => {
+      swipedStatus.value = 0;
       offset.value = { x: translateX.value, y: translateY.value };
       rotateZ.value = withTiming(0);
       scale.value = withTiming(1.2);
@@ -71,12 +74,13 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
       translateY.value = offset.value.y + event.translationY;
     })
     .onEnd((event) => {
-      const dest = 1000 * Math.sign(event.velocityX);
+      swipedStatus.value = translateX.value > SWIPE_THRESHOLD ? 1 : translateX.value < -SWIPE_THRESHOLD ? -1 : 0;
+      const dest = 500 * Math.sign(event.velocityX) * Math.abs(swipedStatus.value);
       translateX.value = withSpring(dest, { velocity: event.velocityX });
       translateY.value = withSpring(0, { velocity: event.velocityY });
       scale.value = withTiming(1, {}, () => {
         const isLast = index === 0;
-        const isSwipedLeftOrRight = dest !== 0;
+        const isSwipedLeftOrRight = swipedStatus.value !== 0;
         if (isLast && isSwipedLeftOrRight) {
           shuffleBack.value = true;
         }
