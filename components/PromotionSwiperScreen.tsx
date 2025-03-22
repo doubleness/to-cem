@@ -1,22 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Dimensions,
-  Image,
   SafeAreaView,
 } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  useAnimatedGestureHandler,
   interpolate,
   Extrapolate,
   runOnJS,
 } from 'react-native-reanimated';
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.9;
@@ -213,7 +211,7 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
   );
 };
 
-export const PromotionSwiperScreen = () => {
+const PromotionSwiperScreen = () => {
   const [promotions, setPromotions] = useState(dummyData);
   const swipe = useSharedValue(0);
   const tiltSign = useSharedValue(0);
@@ -232,15 +230,16 @@ export const PromotionSwiperScreen = () => {
     removeTopCard();
   };
   
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: (_, ctx: any) => {
-      ctx.startX = swipe.value;
-    },
-    onActive: (event, ctx) => {
-      swipe.value = ctx.startX + event.translationX;
+  // Create the pan gesture using the new API
+  const panGesture = Gesture.Pan()
+    .onBegin(() => {
+      // Store the start position (handled by the new API)
+    })
+    .onUpdate((event) => {
+      swipe.value = event.translationX;
       tiltSign.value = Math.sign(event.translationX);
-    },
-    onEnd: (event) => {
+    })
+    .onEnd((event) => {
       const direction = Math.sign(event.velocityX);
       const shouldDismiss = 
         Math.abs(event.velocityX) > 500 || 
@@ -259,8 +258,7 @@ export const PromotionSwiperScreen = () => {
       } else {
         swipe.value = withSpring(0);
       }
-    },
-  });
+    });
 
   const renderPromotions = () => {
     return promotions.map((promotion, index) => {
@@ -288,11 +286,11 @@ export const PromotionSwiperScreen = () => {
         
         <View style={styles.cardsContainer}>
           {promotions.length > 0 ? (
-            <PanGestureHandler onGestureEvent={gestureHandler}>
+            <GestureDetector gesture={panGesture}>
               <Animated.View style={styles.cardsWrapper}>
                 {renderPromotions()}
               </Animated.View>
-            </PanGestureHandler>
+            </GestureDetector>
           ) : (
             <View style={styles.emptyStateContainer}>
               <Text style={styles.emptyStateText}>No more promotions!</Text>
@@ -473,3 +471,5 @@ const styles = StyleSheet.create({
     color: '#7f8c8d',
   },
 });
+
+export default PromotionSwiperScreen;
