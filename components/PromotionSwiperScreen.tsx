@@ -145,10 +145,6 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
           
           <View style={styles.gradientContainer}>
             <Text style={styles.productTitle}>{promotion.product}</Text>
-            {/* <View style={styles.priceContainer}>
-              <Text style={styles.price}>{promotion.price}</Text>
-              <Text style={styles.regularPrice}>{promotion.regularPrice}</Text>
-            </View> */}
           </View>
         </View>
         
