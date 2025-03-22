@@ -7,6 +7,7 @@ export type Promotion = {
     x: number;
     y: number;
     shop: string;
+    swiped: boolean;
 };
 
 export const promotions: Promotion[] = [
@@ -18,7 +19,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "0.5 l bottle, 12%",
         x: 190,
         y: 425,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Orion Deli chocolate bars",
@@ -28,7 +30,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "various types, 35 g",
         x: 507,
         y: 425,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Rio mare Insalatissime tuna salad",
@@ -38,7 +41,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "various types, 160 g",
         x: 830,
         y: 425,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "White seedless grapes",
@@ -48,7 +52,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "500 g/pack",
         x: 830,
         y: 160,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Boneless pork neck",
@@ -58,7 +63,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "chilled, Slovak origin",
         x: 190,
         y: 688,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "La Grande ham",
@@ -68,7 +74,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "96% meat content, pork meat from the EU",
         x: 507,
         y: 688,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Calinda strawberries",
@@ -78,7 +85,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "country of origin: Italy",
         x: 830,
         y: 688,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Hyza whole chicken",
@@ -88,7 +96,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "chilled, Slovak origin",
         x: 190,
         y: 956,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Tami Tatranské milk 3.5%",
@@ -98,7 +107,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "long-life, 1 l",
         x: 507,
         y: 956,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Coca-Cola, Coca-Cola Zero, Fanta, Sprite, Zero Lime",
@@ -108,7 +118,8 @@ export const promotions: Promotion[] = [
         additionalInfo: "bottle deposit 0.15€",
         x: 830,
         y: 956,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     },
     {
         product: "Raciol vegetable oil (rapeseed)",
@@ -118,6 +129,7 @@ export const promotions: Promotion[] = [
         additionalInfo: "original price 2.99€",
         x: 830,
         y: 1217,
-        shop: "Billa"
+        shop: "Billa",
+        swiped: false,
     }
 ];

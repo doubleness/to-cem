@@ -166,17 +166,23 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
 
 const PromotionSwiperScreen = () => {
   const [promotions, setPromotions] = useState(promotionsData);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0);
   const swipe = useSharedValue(0);
   const tiltSign = useSharedValue(0);
   const isAnimating = useSharedValue(false);
   
   const removeTopCard = () => {
-    // Reset the swipe value for the new top card
+    
     requestAnimationFrame(() => {
+      setPromotions((prevPromotions) => {
+        const newPromotions = [...prevPromotions];
+        newPromotions[selectedCardIndex].swiped = true;
+        return newPromotions;
+      });
       swipe.value = 0;
       tiltSign.value = 0;
       isAnimating.value = false;
-      setPromotions((prevPromotions) => prevPromotions.slice(1));
+      setSelectedCardIndex((prevIndex) => prevIndex + 1);
     });
   };
 
@@ -236,13 +242,13 @@ const PromotionSwiperScreen = () => {
 
   const renderPromotions = () => {
     return promotions.map((promotion, index) => {
-      if (index > 2) return null;
+      if (promotion.swiped) return null;
       
       return (
         <PromotionCard
           key={`${promotion.product}-${promotion.shop}-${index}`}
           promotion={promotion}
-          isFirst={index === 0}
+          isFirst={index === selectedCardIndex}
           swipe={swipe}
           tiltSign={tiltSign}
           index={index}
