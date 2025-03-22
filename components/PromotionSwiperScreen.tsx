@@ -135,11 +135,11 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
       <View style={styles.infoContainer}> 
         <View style={styles.cardOverlay}>
           <View style={styles.badgesContainer}>
-            <View style={styles.discountBadge}>
-              <Text style={styles.discountText}>{promotion.discount}</Text>
-            </View>
             <View style={styles.shopBadge}>
               <Text style={styles.shopText}>{promotion.shop}</Text>
+            </View>
+            <View style={styles.discountBadge}>
+              <Text style={styles.discountText}>{promotion.discount}</Text>
             </View>
           </View>
           
