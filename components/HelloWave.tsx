@@ -1,40 +1,48 @@
-import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
-  useAnimatedStyle,
   withTiming,
-  withRepeat,
-  withSequence,
+  useAnimatedStyle,
+  Easing,
 } from 'react-native-reanimated';
+import { View, Button, StyleSheet } from 'react-native';
 
-import { ThemedText } from '@/components/ThemedText';
+export const AnimatedStyleUpdateExample = () => {
+  const randomWidth = useSharedValue(10);
 
-export function HelloWave() {
-  const rotationAnimation = useSharedValue(0);
+  const config = {
+    duration: 500,
+    easing: Easing.bezier(0.5, 0.01, 0, 1),
+  };
 
-  useEffect(() => {
-    rotationAnimation.value = withRepeat(
-      withSequence(withTiming(25, { duration: 150 }), withTiming(0, { duration: 150 })),
-      4 // Run the animation 4 times
-    );
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotationAnimation.value}deg` }],
-  }));
+  const style = useAnimatedStyle(() => {
+    return {
+      width: withTiming(randomWidth.value, config),
+    };
+  });
 
   return (
-    <Animated.View style={animatedStyle}>
-      <ThemedText style={styles.text}>👋</ThemedText>
-    </Animated.View>
+    <View style={styles.container}>
+      <Animated.View style={[styles.box, style]} />
+      <Button
+        title="toggle"
+        onPress={() => {
+          randomWidth.value = Math.random() * 350;
+        }}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 28,
-    lineHeight: 32,
-    marginTop: -6,
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  box: {
+    width: 100,
+    height: 80,
+    backgroundColor: 'black',
+    margin: 30,
   },
 });
