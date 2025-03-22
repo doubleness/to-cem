@@ -9,7 +9,7 @@ export type Promotion = {
     shop: string;
 };
 
-export const discounts: Promotion[] = [
+export const promotions: Promotion[] = [
     {
         product: "Pilsner Urquell",
         price: "0.95€",
