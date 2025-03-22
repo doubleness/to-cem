@@ -260,10 +260,6 @@ const PromotionSwiperScreen = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Grocery Deals</Text>
-        </View>
-        
         <View style={styles.cardsContainer}>
           {promotions.length > 0 ? (
             <GestureDetector gesture={panGesture}>
@@ -438,14 +434,14 @@ const styles = StyleSheet.create({
   },
   likeContainer: {
     position: 'absolute',
-    top: 40,
-    left: 20,
+    top: 60,
+    left: 30,
     transform: [{ rotate: '-30deg' }],
     borderWidth: 4,
     borderColor: '#2ecc71',
     padding: 8,
     borderRadius: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#2ecc71',
   },
   likeText: {
     color: '#2ecc71',
@@ -457,14 +453,14 @@ const styles = StyleSheet.create({
   },
   nopeContainer: {
     position: 'absolute',
-    top: 40,
-    right: 20,
+    top: 60,
+    right: 30,
     transform: [{ rotate: '30deg' }],
     borderWidth: 4,
     borderColor: '#e74c3c',
     padding: 8,
     borderRadius: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#e74c3c',
   },
   nopeText: {
     color: '#e74c3c',
