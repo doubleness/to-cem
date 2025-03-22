@@ -16,8 +16,8 @@ export const promotions: Promotion[] = [
         regularPrice: "1.42€",
         discount: "2+1 FREE",
         additionalInfo: "0.5 l bottle, 12%",
-        x: 1,
-        y: 1,
+        x: 190,
+        y: 425,
         shop: "Billa"
     },
     {
@@ -26,8 +26,8 @@ export const promotions: Promotion[] = [
         regularPrice: "0.62€",
         discount: "1+1 FREE",
         additionalInfo: "various types, 35 g",
-        x: 1,
-        y: 1,
+        x: 507,
+        y: 425,
         shop: "Billa"
     },
     {
@@ -36,8 +36,8 @@ export const promotions: Promotion[] = [
         regularPrice: "3.66€",
         discount: "1+1 FREE",
         additionalInfo: "various types, 160 g",
-        x: 1,
-        y: 1,
+        x: 830,
+        y: 425,
         shop: "Billa"
     },
     {
@@ -46,8 +46,8 @@ export const promotions: Promotion[] = [
         regularPrice: "3.69€",
         discount: "1+1 FREE",
         additionalInfo: "500 g/pack",
-        x: 1,
-        y: 1,
+        x: 830,
+        y: 160,
         shop: "Billa"
     },
     {
@@ -56,8 +56,8 @@ export const promotions: Promotion[] = [
         regularPrice: "7.14€/kg",
         discount: "-37%",
         additionalInfo: "chilled, Slovak origin",
-        x: 1,
-        y: 1,
+        x: 190,
+        y: 688,
         shop: "Billa"
     },
     {
@@ -66,8 +66,8 @@ export const promotions: Promotion[] = [
         regularPrice: "1.49€/100 g",
         discount: "-33%",
         additionalInfo: "96% meat content, pork meat from the EU",
-        x: 1,
-        y: 1,
+        x: 507,
+        y: 688,
         shop: "Billa"
     },
     {
@@ -76,8 +76,8 @@ export const promotions: Promotion[] = [
         regularPrice: "3.99€/400 g",
         discount: "-25%",
         additionalInfo: "country of origin: Italy",
-        x: 1,
-        y: 1,
+        x: 830,
+        y: 688,
         shop: "Billa"
     },
     {
@@ -86,8 +86,8 @@ export const promotions: Promotion[] = [
         regularPrice: "3.71€/kg",
         discount: "-30%",
         additionalInfo: "chilled, Slovak origin",
-        x: 1,
-        y: 1,
+        x: 190,
+        y: 956,
         shop: "Billa"
     },
     {
@@ -96,8 +96,8 @@ export const promotions: Promotion[] = [
         regularPrice: "1.47€",
         discount: "-44%",
         additionalInfo: "long-life, 1 l",
-        x: 1,
-        y: 1,
+        x: 507,
+        y: 956,
         shop: "Billa"
     },
     {
@@ -106,8 +106,8 @@ export const promotions: Promotion[] = [
         regularPrice: "2.19€/1.5 l",
         discount: "-36%",
         additionalInfo: "bottle deposit 0.15€",
-        x: 1,
-        y: 1,
+        x: 830,
+        y: 956,
         shop: "Billa"
     },
     {
@@ -116,8 +116,8 @@ export const promotions: Promotion[] = [
         regularPrice: "2.99€/l",
         discount: "-44%",
         additionalInfo: "original price 2.99€",
-        x: 1,
-        y: 1,
+        x: 830,
+        y: 1217,
         shop: "Billa"
     }
 ];
