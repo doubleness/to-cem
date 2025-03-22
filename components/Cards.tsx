@@ -13,22 +13,28 @@ import { Swiper, type SwiperCardRefType } from 'rn-swiper-list';
 import { ActionButton } from './ActionButton';
 import { Promotion, promotions } from '@/data/promotions';
 
+const cardSize = 400;
+const scale = 1.4;
+
 export const Cards = () => {
   const ref = useRef<SwiperCardRefType>();
 
-  const renderCard = useCallback(
+  const renderCard =
     (promotion: Promotion) => {
       return (
         <View style={styles.renderCardContainer}>
-          <Image source={require('../assets/images/letak.jpg')} style={styles.renderCardImage} />
-          <Text>{promotion.product}</Text>
+          <Image
+            source={require('../assets/images/letak.jpg')}
+            style={[
+                styles.renderCardImage, 
+                { transform: [{ translateX: -promotion.x * scale + (cardSize/2) }, { translateY: -promotion.y * scale + (cardSize/2) }] }
+            ]} />
+          <Text style={{position: 'absolute', top: 10, left: 10}}>{promotion.product}</Text> 
           <Text>{promotion.price}</Text>
           <Text>{promotion.discount}</Text>
         </View>
       );
-    },
-    []
-  );
+    };
   const OverlayLabelRight = useCallback(() => {
     return (
       <View
@@ -175,23 +181,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   cardStyle: {
-    width: '95%',
-    height: '75%',
+    width: cardSize,
+    height: cardSize,
     borderRadius: 15,
     marginVertical: 20,
   },
   renderCardContainer: {
     flex: 1,
-    borderRadius: 15,
-    height: '75%',
+    borderRadius: 30,
+    height: '70%',
     width: '100%',
     backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
+    overflow: 'hidden',
   },
   renderCardImage: {
-    height: '100%',
-    width: '100%',
+    width: 1014*scale,
+    height: 1420*scale,
     borderRadius: 15,
   },
   subContainer: {
