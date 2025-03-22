@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import Animated, {
   useSharedValue,
@@ -13,83 +14,22 @@ import Animated, {
   interpolate,
   Extrapolate,
   runOnJS,
+  SharedValue,
 } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { promotions as promotionsData, Promotion } from '@/data/promotions';
 
 const { width, height } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.9;
 const CARD_HEIGHT = height * 0.6;
 const SWIPE_THRESHOLD = 120;
-
-export type Promotion = {
-  product: string;
-  price: string;
-  regularPrice: string;
-  discount: string;
-  additionalInfo: string;
-  x: number;
-  y: number;
-  shop: string;
-};
-
-const dummyData: Promotion[] = [
-  {
-    product: "Organic Bananas",
-    price: "$0.79",
-    regularPrice: "$0.99",
-    discount: "20% OFF",
-    additionalInfo: "Per pound, non-GMO",
-    x: 0,
-    y: 0,
-    shop: "GreenMart"
-  },
-  {
-    product: "Whole Wheat Bread",
-    price: "$2.49",
-    regularPrice: "$3.49",
-    discount: "29% OFF",
-    additionalInfo: "Fresh baked daily",
-    x: 0,
-    y: 0,
-    shop: "Baker's Corner"
-  },
-  {
-    product: "Free Range Eggs",
-    price: "$3.99",
-    regularPrice: "$5.99",
-    discount: "33% OFF",
-    additionalInfo: "Dozen, cage-free",
-    x: 0,
-    y: 0,
-    shop: "FarmFresh"
-  },
-  {
-    product: "Almond Milk",
-    price: "$2.99",
-    regularPrice: "$4.49",
-    discount: "33% OFF",
-    additionalInfo: "Sugar-free, 64oz",
-    x: 0,
-    y: 0,
-    shop: "GreenMart"
-  },
-  {
-    product: "Ground Coffee",
-    price: "$6.99",
-    regularPrice: "$9.99",
-    discount: "30% OFF",
-    additionalInfo: "Fair trade, medium roast",
-    x: 0,
-    y: 0,
-    shop: "Bean & Brew"
-  }
-];
+const CARD_SCALE = 1.4;
 
 const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: { 
   promotion: Promotion, 
   isFirst?: boolean, 
-  swipe?: Animated.SharedValue<number>, 
-  tiltSign?: Animated.SharedValue<number>,
+  swipe?: SharedValue<number>, 
+  tiltSign?: SharedValue<number>,
   index: number 
 }) => {
   const cardAnimatedStyle = useAnimatedStyle(() => {
@@ -171,6 +111,14 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
     };
   });
 
+  // Background image style with x and y translations
+  const backgroundImageStyle = {
+    transform: [
+      { translateX: -promotion.x * CARD_SCALE + (CARD_WIDTH / 2) },
+      { translateY: -promotion.y * CARD_SCALE + (CARD_HEIGHT / 2) }
+    ]
+  };
+
   return (
     <Animated.View 
       style={[
@@ -179,40 +127,49 @@ const PromotionCard = ({ promotion, isFirst = false, swipe, tiltSign, index }: {
         { zIndex: 5 - index }
       ]}
     >
-      <View style={styles.discountBadge}>
-        <Text style={styles.discountText}>{promotion.discount}</Text>
-      </View>
-      
-      <View style={styles.shopBadge}>
-        <Text style={styles.shopText}>{promotion.shop}</Text>
-      </View>
-      
-      <View style={styles.cardContent}>
-        <Text style={styles.productTitle}>{promotion.product}</Text>
-        <View style={styles.priceContainer}>
-          <Text style={styles.price}>{promotion.price}</Text>
-          <Text style={styles.regularPrice}>{promotion.regularPrice}</Text>
-        </View>
-        <Text style={styles.additionalInfo}>{promotion.additionalInfo}</Text>
-      </View>
-      
-      {isFirst && (
-        <>
-          <Animated.View style={[styles.likeContainer, likeStyle]}>
-            <Text style={styles.likeText}>SAVE</Text>
-          </Animated.View>
+      <Image 
+        source={require('../assets/images/letak.jpg')}
+        style={[styles.backgroundImage, backgroundImageStyle]}
+        resizeMode="cover"
+      />
+      <View style={styles.infoContainer}> 
+        <View style={styles.cardOverlay}>
+          <View style={styles.badgesContainer}>
+            <View style={styles.discountBadge}>
+              <Text style={styles.discountText}>{promotion.discount}</Text>
+            </View>
+            <View style={styles.shopBadge}>
+              <Text style={styles.shopText}>{promotion.shop}</Text>
+            </View>
+          </View>
           
-          <Animated.View style={[styles.nopeContainer, nopeStyle]}>
-            <Text style={styles.nopeText}>SKIP</Text>
-          </Animated.View>
-        </>
-      )}
+          <View style={styles.gradientContainer}>
+            <Text style={styles.productTitle}>{promotion.product}</Text>
+            {/* <View style={styles.priceContainer}>
+              <Text style={styles.price}>{promotion.price}</Text>
+              <Text style={styles.regularPrice}>{promotion.regularPrice}</Text>
+            </View> */}
+          </View>
+        </View>
+        
+        {isFirst && (
+          <>
+            <Animated.View style={[styles.likeContainer, likeStyle]}>
+              <Text style={styles.likeText}>CEM</Text>
+            </Animated.View>
+            
+            <Animated.View style={[styles.nopeContainer, nopeStyle]}>
+              <Text style={styles.nopeText}>NECEM</Text>
+            </Animated.View>
+          </>
+        )}
+      </View>
     </Animated.View>
   );
 };
 
 const PromotionSwiperScreen = () => {
-  const [promotions, setPromotions] = useState(dummyData);
+  const [promotions, setPromotions] = useState(promotionsData);
   const swipe = useSharedValue(0);
   const tiltSign = useSharedValue(0);
   
@@ -329,6 +286,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 20,
+    position: 'relative',
   },
   cardsWrapper: {
     width: CARD_WIDTH,
@@ -352,16 +310,45 @@ const styles = StyleSheet.create({
     elevation: 5,
     overflow: 'hidden',
   },
-  cardContent: {
+  infoContainer: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    top:0,
+    left:0
+  },
+  backgroundImage: {
+    width: 1014*CARD_SCALE,
+    height: 1420*CARD_SCALE,
+    overflow: 'hidden',
+    borderRadius: 20,
+  },
+  cardOverlay: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'relative',
+  },
+  gradientContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     padding: 20,
+    paddingTop: 25,
+    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  badgesContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   discountBadge: {
-    position: 'absolute',
-    top: 15,
-    right: 15,
     backgroundColor: '#FF6347',
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -374,9 +361,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   shopBadge: {
-    position: 'absolute',
-    top: 15,
-    left: 15,
     backgroundColor: '#4A90E2',
     paddingHorizontal: 12,
     paddingVertical: 6,
@@ -389,31 +373,45 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   productTitle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
+    color: 'white',
     textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   priceContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    marginBottom: 15,
+    justifyContent: 'center',
+    marginBottom: 8,
   },
   price: {
     fontSize: 36,
     fontWeight: 'bold',
     color: '#2ecc71',
     marginRight: 10,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   regularPrice: {
     fontSize: 22,
     textDecorationLine: 'line-through',
-    color: '#7f8c8d',
+    color: '#e0e0e0',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   additionalInfo: {
     fontSize: 16,
-    color: '#7f8c8d',
+    color: '#e0e0e0',
     textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   likeContainer: {
     position: 'absolute',
@@ -424,11 +422,15 @@ const styles = StyleSheet.create({
     borderColor: '#2ecc71',
     padding: 8,
     borderRadius: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   likeText: {
     color: '#2ecc71',
     fontSize: 32,
     fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   nopeContainer: {
     position: 'absolute',
@@ -439,11 +441,15 @@ const styles = StyleSheet.create({
     borderColor: '#e74c3c',
     padding: 8,
     borderRadius: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   nopeText: {
     color: '#e74c3c',
     fontSize: 32,
     fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   emptyStateContainer: {
     alignItems: 'center',
