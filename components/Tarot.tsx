@@ -9,7 +9,7 @@ export const Tarot = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        <Text style={styles.title}>To cem</Text>
+        <Text style={styles.title}>To cem!</Text>
         {promotions.map((card, index) => (
           <Card card={card} key={index} index={index} shuffleBack={shuffleBack} />
         ))}
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     fontFamily: 'MiniStoryBold',
     fontSize: 64,
     textAlign: "center",
-    marginTop: 110,
+    marginTop: 140,
     color: 'white'
   },
 });

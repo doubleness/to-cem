@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 120,
   },
   card: {
     position: "relative",
