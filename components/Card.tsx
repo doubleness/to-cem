@@ -1,5 +1,5 @@
 import { Promotion } from "@/data/promotions";
-import { EvilIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
 import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -12,7 +12,6 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const { width: wWidth, height } = Dimensions.get("window");
 const CARD_WIDTH = wWidth - 100;
@@ -121,7 +120,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
   }));
 
   const iconRotation = useAnimatedStyle(() => ({
-    transform: [{ rotateX: `${translateX.value * 0.5 - 90}deg` }],
+    transform: [{ rotateX: `${translateX.value * 0.5 + 90}deg` }],
   }));
 
   return (
@@ -138,7 +137,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
           />
           <Animated.View style={swipeStatusStyle}>
             <Animated.View style={iconRotation}>
-              <MaterialIcons color={'white'} size={32} name={'thumb-up'} />
+              <MaterialCommunityIcons color={'white'} size={32} name={'thumb-down-outline'} />
             </Animated.View>
           </Animated.View>
         </Animated.View>
