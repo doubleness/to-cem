@@ -11,8 +11,8 @@ import Animated, {
   withDelay,
   withSpring,
   withTiming,
-  runOnJS,
 } from "react-native-reanimated";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const { width: wWidth, height } = Dimensions.get("window");
 const CARD_WIDTH = wWidth - 100;
@@ -120,11 +120,8 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
     zIndex: 100,
   }));
 
-  const likeStatusOpacityStyle = useAnimatedStyle(() => ({
-    opacity: translateX.value / CARD_WIDTH,
-  }));
-  const dislikeStatusOpacityStyle = useAnimatedStyle(() => ({
-    opacity: -translateX.value / CARD_WIDTH,
+  const iconRotation = useAnimatedStyle(() => ({
+    transform: [{ rotateX: `${translateX.value * 0.5 - 90}deg` }],
   }));
 
   return (
@@ -139,7 +136,11 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
             }, imageTransformStyle]}
             resizeMode="contain"
           />
-          <Animated.View style={swipeStatusStyle} />
+          <Animated.View style={swipeStatusStyle}>
+            <Animated.View style={iconRotation}>
+              <MaterialIcons color={'white'} size={32} name={'thumb-up'} />
+            </Animated.View>
+          </Animated.View>
         </Animated.View>
       </GestureDetector>
     </View>
