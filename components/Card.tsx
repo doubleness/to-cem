@@ -135,9 +135,17 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
             }, imageTransformStyle]}
             resizeMode="contain"
           />
+          <View style={styles.badgesContainer}>
+            <View style={styles.shopBadge}>
+              <Text style={styles.badgeText}>{card.shop}</Text>
+            </View>
+            <View style={styles.discountBadge}>
+              <Text style={styles.badgeText}>{card.discount}</Text>
+            </View>
+          </View>
           <Animated.View style={swipeStatusStyle}>
             <Animated.View style={iconRotation}>
-              <MaterialCommunityIcons color={'white'} size={32} name={'thumb-down-outline'} />
+              <MaterialCommunityIcons color={'white'} size={50} name={'thumb-down-outline'} />
             </Animated.View>
           </Animated.View>
         </Animated.View>
@@ -167,5 +175,33 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  badgesContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    padding: 15,
+  },
+  discountBadge: {
+    backgroundColor: 'red',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+
+  },
+  shopBadge: {
+    backgroundColor: 'darkblue',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+    marginRight: 5,
+  },
+  badgeText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });
