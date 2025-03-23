@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'MiniStory',
-    fontSize: 80,
+    fontSize: 70,
     textAlign: "center",
     marginTop: 140,
     color: 'white'

@@ -124,9 +124,9 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
     () => translateX.value,
     (v) => {
       if (v && v > 0) {
-        runOnJS(setSwipeStatusText)('Cem!');
+        runOnJS(setSwipeStatusText)('Cem!           ');
       } else {
-        runOnJS(setSwipeStatusText)('Necem...');
+        runOnJS(setSwipeStatusText)('         Necem...');
       }
     }
   );

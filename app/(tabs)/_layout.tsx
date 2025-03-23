@@ -35,7 +35,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons color={'darkblue'} size={28} name="thumbs-up-down" />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons color={'darkblue'} size={28} name="tag-multiple" />,
           tabBarShowLabel: false,
         }}
       />
