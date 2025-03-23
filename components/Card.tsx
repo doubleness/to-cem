@@ -1,6 +1,7 @@
 import { Promotion } from "@/data/promotions";
+import { EvilIcons, Ionicons } from "@expo/vector-icons";
 import React, { useEffect } from "react";
-import { View, StyleSheet, Dimensions, Image } from "react-native";
+import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Easing,
@@ -105,6 +106,27 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
     ]
   };
 
+  const swipeStatusStyle = useAnimatedStyle(() => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: translateX.value > 0 ? 'green' : 'red',
+    opacity: Math.abs(translateX.value / CARD_WIDTH * 1.2),
+    zIndex: 100,
+  }));
+
+  const likeStatusOpacityStyle = useAnimatedStyle(() => ({
+    opacity: translateX.value / CARD_WIDTH,
+  }));
+  const dislikeStatusOpacityStyle = useAnimatedStyle(() => ({
+    opacity: -translateX.value / CARD_WIDTH,
+  }));
+
   return (
     <View style={styles.container} pointerEvents="box-none">
       <GestureDetector gesture={panGesture}>
@@ -117,6 +139,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
             }, imageTransformStyle]}
             resizeMode="contain"
           />
+          <Animated.View style={swipeStatusStyle} />
         </Animated.View>
       </GestureDetector>
     </View>
@@ -130,6 +153,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
+    position: "relative",
     overflow: "hidden",
     backgroundColor: "white",
     borderRadius: 10,
