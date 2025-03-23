@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     backgroundColor: "lightblue",
   },
   title: {
-    fontFamily: 'MiniStoryBold',
-    fontSize: 64,
+    fontFamily: 'MiniStory',
+    fontSize: 80,
     textAlign: "center",
     marginTop: 140,
     color: 'white'

@@ -1,10 +1,10 @@
 import { Promotion } from "@/data/promotions";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Easing,
+  runOnJS,
   useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
@@ -37,6 +37,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
   const delay = index * DURATION;
   const theta = -5 + Math.random() * 5;
   const swipedStatus = useSharedValue(0);
+  const [swipeStatusText, setSwipeStatusText] = useState('');
 
   useEffect(() => {
     translateY.value = withDelay(
@@ -119,9 +120,16 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
     zIndex: 100,
   }));
 
-  const iconRotation = useAnimatedStyle(() => ({
-    transform: [{ rotateX: `${translateX.value * 0.5 + 90}deg` }],
-  }));
+  useAnimatedReaction(
+    () => translateX.value,
+    (v) => {
+      if (v && v > 0) {
+        runOnJS(setSwipeStatusText)('Cem!');
+      } else {
+        runOnJS(setSwipeStatusText)('Necem...');
+      }
+    }
+  );
 
   return (
     <View style={styles.container} pointerEvents="box-none">
@@ -144,9 +152,7 @@ export const Card = ({ card, shuffleBack, index }: CardProps) => {
             </View>
           </View>
           <Animated.View style={swipeStatusStyle}>
-            <Animated.View style={iconRotation}>
-              <MaterialCommunityIcons color={'white'} size={50} name={'thumb-down-outline'} />
-            </Animated.View>
+            <Text style={styles.statusText}>{swipeStatusText}</Text>
           </Animated.View>
         </Animated.View>
       </GestureDetector>
@@ -204,5 +210,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
+  },
+  statusText: {
+    color: 'white',
+    fontFamily: 'MiniStoryBold',
+    fontSize: 45,
   },
 });
